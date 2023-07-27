@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS assignments CASCADE;
+DROP TABLE IF EXISTS assignment_submissions CASCADE;
 CREATE TABLE assignments (
   id SERIAL PRIMARY KEY NOT NULL,
   name VARCHAR(255),
@@ -14,3 +16,5 @@ CREATE TABLE assignment_submissions (
   duration INTEGER,
   submission_date DATE
 );
+
+
