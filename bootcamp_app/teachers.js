@@ -9,7 +9,8 @@ const pool = new Pool({
 
 /***************************Name of Teachers That Assisted*********************************************************************/
 
-pool.query(
+pool
+  .query(
     `
     SELECT DISTINCT teachers.name AS teacher,
        cohorts.name AS cohort
@@ -17,14 +18,14 @@ pool.query(
        JOIN assistance_requests ON teachers.id = assistance_requests.teacher_id
        JOIN students ON students.id = student_id
        JOIN cohorts ON cohorts.id = cohort_id
-       WHERE cohorts.name LIKE '%${process.argv[2]}%'
+       WHERE cohorts.name LIKE $1
        ORDER BY cohorts.name;
 
-    `
-)
-.then(res => {
-    res.rows.forEach(row => {
-      console.log(`${row.cohort}: ${row.teacher}`);
-    })
+    `, [`%${process.argv[2]}%`]
+  )
+  .then((res) => {
+    res.rows.forEach((row) => {
+      console.log(`$1: ${row.teacher}`);
+    });
   })
-  .catch(err => console.error('query error', err.stack));
+  .catch((err) => console.error("query error", err.stack));
